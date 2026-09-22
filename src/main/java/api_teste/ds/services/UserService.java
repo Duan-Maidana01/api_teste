@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 //Importa o models.Task
 import api_teste.ds.models.Task;
-
+import api_teste.ds.models.User;
 //Importa a interface do repositório responsável pelas operações no banco de dados
 import api_teste.ds.repositories.UserRepository;
 
@@ -40,7 +40,7 @@ public class UserService {
         Optional<User> user = this.userRepository.findById(Id);
 
         return user.orElseThrow(()-> new RuntimeException(
-            "Usuário não encontrado! Id: " + Id + ", Tipo: " + user.class.getName()
+            "Usuário não encontrado! Id: " + Id + ", Tipo: " + User.class.getName()
         ));
 
     }
@@ -54,6 +54,33 @@ public class UserService {
 
         this.taskRepository.saveAll(obj.getClass());
 
+        return obj;
+
     }
 
+    @Transactional
+     public User update(User obj){
+
+        User newObj = findById(obj.getId());
+
+        newObj.setDescription(obj.getDescription());
+
+        return this.taskRepository.save(newObj);
+
+    }
+
+    public void delete(Long Id){
+
+        findById(Id);
+
+        try {
+
+            this.userRepository.deleteById(Id);
+
+        } catch (Exception e) {
+
+            throw new RuntimeException("Não é possível excluir pois não há entidades relacionadas");
+
+        }
+    }
 }

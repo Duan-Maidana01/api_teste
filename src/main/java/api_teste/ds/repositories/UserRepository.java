@@ -14,5 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * O Spring gera automaticamente a consulta SQL correspondente:
      * SELECT * FROM users WHERE username = ?
      */
+    
     User findByUsername(String username);
 }
