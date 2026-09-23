@@ -21,6 +21,7 @@ import api_teste.ds.models.User;
 import api_teste.ds.models.User.CreateUser;
 import api_teste.ds.models.User.UpdateUser;
 import api_teste.ds.services.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController // Define a classe como um controlador REST que retorna respostas em JSON
 @RequestMapping ("/user") // Define que todas as rotas desta classe terão como prefixo o caminho "/user"
