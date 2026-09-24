@@ -48,7 +48,7 @@ public class UserController {
 
     }
 
-    @PutMapping("/{id") // Mapeia requisições HTTP PUT na rota base "/user/{id}" (Atualização do usuário)
+    @PutMapping("/{id}") // Mapeia requisições HTTP PUT na rota base "/user/{id}" (Atualização do usuário)
     public ResponseEntity<Void> update(@Validated(UpdateUser.class)@RequestBody User obj, @PathVariable Long id) { // Aplica a regra de UpdateUser e recebe ID e JSON
 
         obj.setId(id); // Garante que o ID do objeto a ser atualizado corresponde ao ID informado no parâmetro da URL 

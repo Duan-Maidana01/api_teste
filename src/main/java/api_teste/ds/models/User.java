@@ -20,6 +20,9 @@ import java.util.Objects;
 @Table(name = User.TABLE_NAME)
 public class User {
 
+    public interface CreateUser {}
+    public interface UpdateUser{} 
+
     public static final String TABLE_NAME = "user";
 
     @Id
@@ -100,5 +103,15 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(this.id, this.username, this.password);
+    }
+
+    public Object getDescription() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescription'");
+    }
+
+    public void setDescription(Object description) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setDescription'");
     }
 }

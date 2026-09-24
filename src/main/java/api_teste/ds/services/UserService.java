@@ -1,86 +1,52 @@
-//Pacote onde está a classe de serviço do projeto
-package main.java.api_teste.ds.services;
+package api_teste.ds.services;
 
-//Importa Optional, usado para tratar valores que podem não estar presentes (Evita NullExceptionalPointer)
 import java.util.Optional;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
-
-//Importa a anotação do Spring para a injeção automática de dependencias
 import org.springframework.beans.factory.annotation.Autowired;
-
-//Importa a anotação que define essa classe como um componente de serviço gerenciado pelo Spring
 import org.springframework.stereotype.Service;
-
-//Importa a anotação para gerencias transações no banco de dados(garante atomicidade na operação)
 import org.springframework.transaction.annotation.Transactional;
 
-//Importa o models.Task
-import api_teste.ds.models.Task;
 import api_teste.ds.models.User;
-//Importa a interface do repositório responsável pelas operações no banco de dados
 import api_teste.ds.repositories.UserRepository;
 
-//Importa a interface do repositório responsável pelas operações no banco de dados
-import api_teste.ds.repositories.TaskRepository;
-
-//Anotação que indica no Spring que essa classe contém as regras de negócios da entidade User
 @Service
 public class UserService {
-    
 
     @Autowired
     private UserRepository userRepository;
 
-        @Autowired
-        private TaskRepository taskRepository;
-
-    public User findById(Long Id){
-
-        Optional<User> user = this.userRepository.findById(Id);
-
-        return user.orElseThrow(()-> new RuntimeException(
-            "Usuário não encontrado! Id: " + Id + ", Tipo: " + User.class.getName()
+    @Transactional(readOnly = true)
+    public User findById(Long id) {
+        Optional<User> user = this.userRepository.findById(id);
+        return user.orElseThrow(() -> new RuntimeException(
+            "Usuário não encontrado! Id: " + id + ", Tipo: " + User.class.getName()
         ));
-
     }
 
     @Transactional
-    public User create(User obj){
-
+    public User create(User obj) {
         obj.setId(null);
-
-        obj = this.userRepository.save(obj);
-
-        this.taskRepository.saveAll(obj.getClass());
-
-        return obj;
-
+        return this.userRepository.save(obj);
     }
 
     @Transactional
-     public User update(User obj){
-
+    public User update(User obj) {
         User newObj = findById(obj.getId());
+        
+        // Ajuste os setters abaixo de acordo com os atributos reais da sua classe User
+        // Exemplo: newObj.setPassword(obj.getPassword());
+        newObj.setDescription(obj.getDescription()); 
 
-        newObj.setDescription(obj.getDescription());
-
-        return this.taskRepository.save(newObj);
-
+        return this.userRepository.save(newObj);
     }
 
-    public void delete(Long Id){
-
-        findById(Id);
-
+    @Transactional
+    public void delete(Long id) {
+        findById(id);
         try {
-
-            this.userRepository.deleteById(Id);
-
+            this.userRepository.deleteById(id);
         } catch (Exception e) {
-
-            throw new RuntimeException("Não é possível excluir pois não há entidades relacionadas");
-
+            throw new RuntimeException("Não é possível excluir o usuário pois existem tarefas vinculadas a ele.");
         }
     }
 }
