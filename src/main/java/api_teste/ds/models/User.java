@@ -104,14 +104,4 @@ public class User {
     public int hashCode() {
         return Objects.hash(this.id, this.username, this.password);
     }
-
-    public Object getDescription() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDescription'");
-    }
-
-    public void setDescription(Object description) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setDescription'");
-    }
 }
