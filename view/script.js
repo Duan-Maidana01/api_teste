@@ -56,4 +56,7 @@ function show(tasks) {
 
     }
 
+    show(data);
+
 }
+getAPI(url);
